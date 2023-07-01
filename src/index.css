@@ -1,0 +1,40 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* All Elements */
+*{
+    box-sizing: border-box;
+}
+
+/* Style for body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Avnir-Roman, sans-serif;
+    background-color: #040714;
+    color: #f9f9f9;
+}
+
+/* Style for Links */
+a {
+    text-decoration: none;
+    color: #f9f9f9;
+}
+
+/* Font size for different screens */
+@media only screen and (min-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 480px) and (max-width: 768px){
+    body {
+        font-size: 15px;
+    }
+}
+@media only screen and (max-width: 479px) {
+    body {
+        font-size: 14px;
+    }
+}
