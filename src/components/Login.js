@@ -29,14 +29,14 @@ const Container = styled.section`
 `;
 
 const Content = styled.div`
-  margiin-bottom: 10vw;
+  margin-bottom: 10vw;
   width: 100%;
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  align-item: center;
+  align-items: center;
   flex-direction: column;
   padding: 86px 40px;
   height: 100%;
@@ -90,10 +90,12 @@ const SignUp = styled.a`
   padding: 16.5px 0;
   border: 1px solid transparent;
   border-radius: 4px;
+  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
    &:hover {
         background-color: #0483ee;
         cursor: pointer;
+        color: white;
     }
 `;
 

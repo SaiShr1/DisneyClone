@@ -1,18 +1,91 @@
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { auth, provider } from "../firebase";
+import {
+  selectUserName,
+  selectUserPhoto,
+  setUserLoginDetails,
+} from "../features/user/userSlice";
+import { useEffect } from "react";
 
 const Header = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userName = useSelector(selectUserName);
+  const userPhoto = useSelector(selectUserPhoto);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if(user){
+        setUser(user)
+        navigate('/home')
+      }
+    })
+  }, [userName]);
+
+  const handleAuth = () => {
+    auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        // console.log(result);
+        setUser(result.user);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  const setUser = (user) => {
+    dispatch(
+      setUserLoginDetails({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    );
+  };
+
   return (
     <Nav>
       <Logo>
         <img src="/assets/images/logo.svg" alt="" />
       </Logo>
 
-      <NavMenu>
-        <a href="/home">
-            <img src="/assets/images/home-icon.svg" alt="HOME" />
-        </a>
-        <span>HOME</span>
-        </NavMenu>
+      {/* if user name doesnt exists */}
+      {!userName ? (
+        <Login onClick={handleAuth}>Login</Login>
+      ) : (
+        <>
+          <NavMenu>
+            <a href="/home">
+              <img src="/assets/images/home-icon.svg" alt="HOME" />
+              <span>HOME</span>
+            </a>
+            <a href="/search">
+              <img src="/assets/images/search-icon.svg" alt="SEARCH" />
+              <span>SEARCH</span>
+            </a>
+            <a href="/watchlist">
+              <img src="/assets/images/watchlist-icon.svg" alt="WATCHLIST" />
+              <span>WATCHLIST</span>
+            </a>
+            <a href="/originals">
+              <img src="/assets/images/original-icon.svg" alt="ORIGINALS" />
+              <span>ORIGINALS</span>
+            </a>
+            <a href="/movies">
+              <img src="/assets/images/movie-icon.svg" alt="MOVIES" />
+              <span>MOVIES</span>
+            </a>
+            <a href="/series">
+              <img src="/assets/images/series-icon.svg" alt="SERIES" />
+              <span>SERIES</span>
+            </a>
+          </NavMenu>
+          <UserImg src={userPhoto} alt={userName}/>
+        </>
+      )}
     </Nav>
   );
 };
@@ -27,7 +100,7 @@ const Nav = styled.nav`
   background-color: #090b13;
   display: flex;
   align-items: center;
-  justify-conent: space-between;
+  justify-content: space-between;
   padding: 0 36px;
   letter-spacing: 16px;
   z-index: 3;
@@ -55,27 +128,77 @@ const NavMenu = styled.div`
   margin-left: 25px;
 
   a {
-     display: flex;
-     align-item: center;
-     padding: 0 12px;
+    display: flex;
+    align-item: center;
+    padding: 0 12px;
 
-     img{
-        height: 20px;
-        min-width: 20px;
-        width: 20px;
-        z-index: auto;
-     }
-
-     span {
-            color: grey;
-            fontt-size: 13px;
-            
-     }
-   }
-
-    @media (max-width: 768px) {
-        display: none;
+    img {
+      height: 20px;
+      min-width: 20px;
+      width: 20px;
+      z-index: auto;
     }
+
+    span {
+      color: lightgrey;
+      font-size: 13px;
+      letter-spacing: 1.42px;
+      line-height: 1.08;
+      padding: 2px 0px;
+      white-space: nowrap;
+      position: relative;
+
+      &:before {
+        background-color: lightgrey;
+        border-radius: 0px 0px 4px 4px;
+        bottom: -6px;
+        content: "";
+        height: 2px;
+        opacity: 0;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        transform-origin: left center;
+        transform: scaleX(0);
+        transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+        visibility: hidden;
+        width: auto;
+      }
+    }
+
+    &:hover {
+      span:before {
+        transform: scaleX(1);
+        visibility: visible;
+        opacity: 1 !important;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const Login = styled.a`
+  background-color: Black;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: 1.5px solid #f9f9f9;
+  border-radius: 5px;
+  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+  &:hover {
+    background-color: #f9f9f9;
+    color: black;
+    cursor: pointer;
+    border-color: transparent;
+  }
+`;
+
+const UserImg = styled.img`
+height : 100%;
 `;
 
 export default Header;
