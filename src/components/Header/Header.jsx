@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth, provider } from "../firebase";
+import { auth, provider } from "../../utils/firebase";
 import {
   selectUserName,
   selectUserPhoto,
-  setUserLoginDetails,
-} from "../features/user/userSlice";
+  setSignOutState,
+  setUserLoginDetails, 
+} from "../../features/user/userSlice";
 import { useEffect } from "react";
 
 const Header = (props) => {
@@ -17,15 +18,16 @@ const Header = (props) => {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
-      if(user){
-        setUser(user)
-        navigate('/home')
+      if (user) {
+        setUser(user);
+        navigate("/home");
       }
-    })
+    });
   }, [userName]);
 
   const handleAuth = () => {
-    auth
+    if (!userName) {
+      auth
       .signInWithPopup(provider)
       .then((result) => {
         // console.log(result);
@@ -34,6 +36,12 @@ const Header = (props) => {
       .catch((error) => {
         alert(error.message);
       });
+    } else if (userName) {
+        auth.signOut().then(() => {
+          dispatch(setSignOutState())
+          navigate('/')
+        }).catch((err) => alert(err.message))
+    }
   };
 
   const setUser = (user) => {
@@ -49,10 +57,10 @@ const Header = (props) => {
   return (
     <Nav>
       <Logo>
-        <img src="/assets/images/logo.svg" alt="" />
+        <img src="/assets/images/logo.svg" alt="Disney+" />
       </Logo>
 
-      {/* if user name doesnt exists */}
+      {/* if user name doesn't exists */}
       {!userName ? (
         <Login onClick={handleAuth}>Login</Login>
       ) : (
@@ -83,7 +91,14 @@ const Header = (props) => {
               <span>SERIES</span>
             </a>
           </NavMenu>
-          <UserImg src={userPhoto} alt={userName}/>
+
+          <SignOut>
+            <UserImg src={userPhoto} alt={userName} />
+
+            <DropDown>
+              <span onClick={handleAuth}>Sign-out</span>
+            </DropDown>
+          </SignOut>
         </>
       )}
     </Nav>
@@ -108,10 +123,10 @@ const Nav = styled.nav`
 
 // Logo Style
 const Logo = styled.a`
-  paddding: 0;
+  padding: 0;
   width: 80px;
   margin-top: 4px;
-  max-heigth: 70px;
+  max-height: 70px;
 `;
 
 // NavBar Content and  Media Query for mobile
@@ -198,7 +213,45 @@ const Login = styled.a`
 `;
 
 const UserImg = styled.img`
-height : 100%;
+  height: 100%;
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  background: rgba(19, 19, 19, 0.8);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 5px;
+  letter-spacing: 3px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 8px;
+  font-size: 12px;
+  width: 100px;
+  opacity: 0;
+`;
+
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-item: center;
+  justify-content: center;
+
+  ${UserImg} {
+    height: 100%;
+    border-radius: 50%;
+    width: 100%;
+  }
+
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+    }
+  }
 `;
 
 export default Header;

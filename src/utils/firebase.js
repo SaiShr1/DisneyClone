@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/storage';
-import firebaseConfig from './firebaseconfig'
+import firebaseConfig from '../utils/firebaseConfig.js'
 
 
 // Initialize Firebase

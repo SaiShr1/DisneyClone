@@ -52,7 +52,7 @@ const BgImage = styled.div`
   top: 0;
   right: 0;
   left: 0;
-  // z-index will keep the the image behined all the stuff giving it the lowest priority
+  // z-index will keep the the image behind all the stuff giving it the lowest priority
   z-index: -1;
 `;
 
