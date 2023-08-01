@@ -57,7 +57,8 @@ const Home = (props) => {
   }, [userName, dispatch]);
 
   return (
-    <Container>
+    <div>
+      <Container>
       <ImgSlider />
       <Viewers />
       <Recommends />
@@ -65,6 +66,8 @@ const Home = (props) => {
       <Originals />
       <Trending />
     </Container>
+    </div>
+    
   );
 };
 

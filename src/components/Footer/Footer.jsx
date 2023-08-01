@@ -1,48 +1,57 @@
 import React from "react";
 import styled from "styled-components";
-import linkedinLogo from "../public/logos/linkedin.png";
-import githubLogo from "../public/logos/github.png";
-import gmailLogo from "../public/logos/gmail.png";
 
 const Footer = () => {
+  
+
   return (
     <FooterContainer>
-
       <AboutMe>
-        <a href={linkedInURL}>
-          <Logo src={linkedinLogo} alt="LinkedIn" />
+        <h6>About Me:</h6>
+        <div>
+        <a
+          href="https://www.linkedin.com/in/he-coder-omsai-nagvekar-886734205/"
+          target="_blank"
+        >
+          <Logo src="/assets/icons/linkedin-icon.svg" alt="LinkedIn" />
         </a>
 
-        <a href={GitHubURL}>
-            <Logo src={githubLogo} alt="GitHub" />
+        <a href="https://github.com/SaiShr1" target="_blank">
+          <Logo src="/assets/icons/github-icon.svg" alt="GitHub" />
         </a>
+        </div>
       </AboutMe>
 
       <ContactMe>
-        <a href={GmailURL}>
-            <Logo src={gmailLogo} alt="Gmail" />
-        </a>
+        <h5>Contact: omsaix100@gmail.com</h5>
       </ContactMe>
-
     </FooterContainer>
   );
 };
 
 // Styled components for styling the footer and logos
 const FooterContainer = styled.footer`
-  background-color: #f5f5f5;
-  padding: 20px;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background-color: #090b13;
+  align-items: center;
+  padding: 0 36px;
+  // letter-spacing: 16px;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
 `;
 
 const AboutMe = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
 `;
 
 const ContactMe = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
 `;
 

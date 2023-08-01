@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
+
 const Login = (props) => {
   return (
     <Container>
       <Content>
         <CTA>
           <CTALogo src="/assets/images/cta-logo-one.svg" alt="" />
-          <SignUp>Get All Here</SignUp>
+          <SignUp >Login In To Get All</SignUp>
           <Description>
             Disney+ Hotstar is an online video streaming platform owned by Novi
             Digital Entertainment Private Limited, a wholly owned subsidiary of
@@ -49,7 +50,7 @@ const BgImage = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
-  top: 0;
+  top: 72px;
   right: 0;
   left: 0;
   // z-index will keep the the image behind all the stuff giving it the lowest priority
