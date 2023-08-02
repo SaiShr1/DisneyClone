@@ -141,7 +141,7 @@ const Logo = styled.a`
 // Logo2 Style
 const Logo2 = styled.a`
 position: fixed;
-  left: 0;
+
   padding: 0;
   width: 80px;
   margin-top: 4px;
