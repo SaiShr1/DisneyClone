@@ -6,7 +6,7 @@ import {
   selectUserName,
   selectUserPhoto,
   setSignOutState,
-  setUserLoginDetails, 
+  setUserLoginDetails,
 } from "../../features/user/userSlice";
 import { useEffect } from "react";
 
@@ -28,19 +28,19 @@ const Header = (props) => {
   const handleAuth = () => {
     if (!userName) {
       auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        // console.log(result);
-        setUser(result.user);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+        .signInWithPopup(provider)
+        .then((result) => {
+          // console.log(result);
+          setUser(result.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     } else if (userName) {
-        auth.signOut().then(() => {
-          dispatch(setSignOutState())
-          navigate('/')
-        }).catch((err) => alert(err.message))
+      auth.signOut().then(() => {
+        dispatch(setSignOutState())
+        navigate('/')
+      }).catch((err) => alert(err.message))
     }
   };
 
@@ -53,9 +53,14 @@ const Header = (props) => {
       })
     );
   };
+  const navigateHome = () => {
+    // 👇️ navigate to /
+    navigate('/home');
+  }
 
   return (
     <Nav>
+
       <Logo>
         <img src="/assets/images/logo.svg" alt="Disney+" />
       </Logo>
@@ -63,8 +68,12 @@ const Header = (props) => {
       {/* if user name doesn't exists */}
       {!userName ? (
         <Login onClick={handleAuth}>Login</Login>
+
       ) : (
         <>
+          <Logo2>
+            <img src="/assets/images/logo.svg" alt="Disney+" onClick={navigateHome} />
+          </Logo2>
           <NavMenu>
             <a href="/home">
               <img src="/assets/images/home-icon.svg" alt="HOME" />
@@ -123,11 +132,20 @@ const Nav = styled.nav`
 
 // Logo Style
 const Logo = styled.a`
-  padding: 0;
+  padding: -80px;
   width: 80px;
   margin-top: 4px;
   max-height: 70px;
 `;
+
+// Logo2 Style
+const Logo2 = styled.a`
+  position: fixed;
+  padding: 0;
+  width: 80px;
+  margin-top: 4px;
+  max-height: 70px;
+`;  
 
 // NavBar Content and  Media Query for mobile
 const NavMenu = styled.div`
